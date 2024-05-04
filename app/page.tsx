@@ -1,11 +1,11 @@
-import { Welcome } from '../components/Welcome/Welcome';
-import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
+import { HeaderMegaMenu } from '@/components/Header';
+import classes from '@/styles/dashboard.module.css';
 
 export default function HomePage() {
   return (
-    <>
-      <Welcome />
-      <ColorSchemeToggle />
-    </>
+    <div>
+      <HeaderMegaMenu />
+      {/* whiteboard code */}
+    </div>
   );
 }
