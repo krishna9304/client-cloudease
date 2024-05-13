@@ -12,7 +12,7 @@ import {
   IconTrash,
 } from '@tabler/icons-react';
 import { useState } from 'react';
-import classes from './HeaderMegaMenu.module.css';
+import classes from '@/styles/HeaderMegaMenu.module.css';
 
 const user = {
   name: 'Jane Spoonfighter',

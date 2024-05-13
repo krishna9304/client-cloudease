@@ -1,7 +1,7 @@
 .wrapper {
   min-height: 100vh;
   background-size: cover;
-  background-image: linear-gradient(to right, rgb(100, 0, 95), rgba(0, 0, 0, 0)), url(/login-bg.jpg);
+  background-image: linear-gradient(to right, #32001c, rgba(0, 0, 0, 0)), url(/login-bg.jpg);
 }
 
 .form {

@@ -1,15 +1,6 @@
 'use client';
-import {
-  Paper,
-  TextInput,
-  PasswordInput,
-  Checkbox,
-  Button,
-  Title,
-  Text,
-  Anchor,
-} from '@mantine/core';
-import classes from '../login.module.css';
+import { Paper, TextInput, PasswordInput, Button, Title, Text } from '@mantine/core';
+import classes from '@/styles/auth.module.css';
 import Link from 'next/link';
 
 export default function Signup() {
@@ -28,12 +19,12 @@ export default function Signup() {
           mt="sm"
           size="sm"
         />
-        <Button fullWidth mt="xl" size="sm">
+        <Button variant="light" fullWidth mt="xl" size="sm">
           Sign up
         </Button>
 
         <Text ta="center" mt="sm">
-          Already have an account? <Link href="/auth/login">Login</Link>
+          Already have an account? <Link href="/login">Login</Link>
         </Text>
       </Paper>
     </div>

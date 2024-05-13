@@ -3,19 +3,19 @@
 import { createTheme } from '@mantine/core';
 
 export const theme = createTheme({
-  primaryColor: 'grape',
+  primaryColor: 'ui-primary',
   colors: {
     'ui-primary': [
-      '#6f2dff',
-      '#7d3fff',
-      '#8c51ff',
-      '#9a63ff',
-      '#a875ff',
-      '#b687ff',
-      '#c499ff',
-      '#d2abff',
-      '#e0bdff',
-      '#efcfff',
+      '#fd0061',
+      '#e0218a',
+      '#e4007c',
+      '#ec3b83',
+      '#fd0061',
+      '#e0218a',
+      '#e4007c',
+      '#ec3b83',
+      '#fd0061',
+      '#fd0061',
     ],
   },
 });

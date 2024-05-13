@@ -1,6 +1,6 @@
 'use client';
 import { Paper, TextInput, PasswordInput, Checkbox, Button, Title, Text } from '@mantine/core';
-import classes from '../login.module.css';
+import classes from '@/styles/auth.module.css';
 import Link from 'next/link';
 
 export default function Login() {
@@ -14,12 +14,12 @@ export default function Login() {
         <TextInput label="Email address" placeholder="hello@gmail.com" size="sm" />
         <PasswordInput label="Password" placeholder="Your password" mt="sm" size="sm" />
         <Checkbox label="Keep me logged in" mt="xl" size="sm" />
-        <Button fullWidth mt="xl" size="sm">
+        <Button variant="light" fullWidth mt="xl" size="sm">
           Login
         </Button>
 
         <Text ta="center" mt="sm">
-          Don&apos;t have an account? <Link href="/auth/signup">Register</Link>
+          Don&apos;t have an account? <Link href="/signup">Register</Link>
         </Text>
       </Paper>
     </div>

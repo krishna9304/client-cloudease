@@ -29,7 +29,7 @@ import {
   IconCoin,
   IconChevronDown,
 } from '@tabler/icons-react';
-import classes from './HeaderMegaMenu.module.css';
+import classes from '@/styles/HeaderMegaMenu.module.css';
 import { UserHeaderCard } from './UserHeaderCard';
 
 const mockdata = [
@@ -89,7 +89,7 @@ export function HeaderMegaMenu() {
   ));
 
   return (
-    <Box pb={120}>
+    <Box>
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
           <Title order={2}>Cloudease</Title>
