@@ -15,7 +15,9 @@ export default function NothingFoundBackground() {
           </Text>
           <Group justify="center">
             <Link href="/">
-              <Button size="md">Take me back to home page</Button>
+              <Button variant="light" size="md">
+                Take me back to home page
+              </Button>
             </Link>
           </Group>
         </div>
