@@ -2,27 +2,34 @@ import cx from 'clsx';
 import { Avatar, Group, Menu, Text, UnstyledButton, rem, useMantineTheme } from '@mantine/core';
 import {
   IconChevronDown,
-  IconHeart,
+  IconClick,
+  IconLogin,
   IconLogout,
-  IconMessage,
-  IconPlayerPause,
   IconSettings,
-  IconStar,
-  IconSwitchHorizontal,
-  IconTrash,
 } from '@tabler/icons-react';
 import { useState } from 'react';
 import classes from '@/styles/HeaderMegaMenu.module.css';
-
-const user = {
-  name: 'Jane Spoonfighter',
-  email: 'janspoon@fighter.dev',
-  image: 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-5.png',
-};
+import { useCurrentUser } from '@/store/user.store';
+import toast from 'react-hot-toast';
+import apiClient from '@/utils/axios.util';
+import { ApiRoutes } from '@/utils/routes.util';
+import { useRouter } from 'next/navigation';
 
 export const UserHeaderCard = () => {
   const [userMenuOpened, setUserMenuOpened] = useState(false);
-  const theme = useMantineTheme();
+  const { user, setUser } = useCurrentUser();
+  const router = useRouter();
+
+  const handleUserLogout = async () => {
+    try {
+      await apiClient.get(ApiRoutes.auth.logout);
+      toast.success('User logged out');
+      setUser(null);
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to logout');
+    }
+  };
 
   return (
     <Menu
@@ -36,81 +43,39 @@ export const UserHeaderCard = () => {
       <Menu.Target>
         <UnstyledButton className={cx(classes.user, { [classes.userActive]: userMenuOpened })}>
           <Group gap={7}>
-            <Avatar src={user.image} alt={user.name} radius="xl" size={20} />
+            <Avatar src={user?.image} alt={user?.name} radius="xl" size={20} />
             <Text fw={500} size="sm" lh={1} mr={3}>
-              {user.name}
+              {user?.name || 'Create a free account'}
             </Text>
             <IconChevronDown style={{ width: rem(12), height: rem(12) }} stroke={1.5} />
           </Group>
         </UnstyledButton>
       </Menu.Target>
       <Menu.Dropdown>
+        {user && <Menu.Label>Settings</Menu.Label>}
         <Menu.Item
+          onClick={() => (user ? router.push('/account') : router.push('/login'))}
           leftSection={
-            <IconHeart
-              style={{ width: rem(16), height: rem(16) }}
-              color={theme.colors.red[6]}
-              stroke={1.5}
-            />
+            user ? (
+              <IconSettings style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
+            ) : (
+              <IconLogin style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
+            )
           }
         >
-          Liked posts
+          {user ? 'Account settings' : 'Login'}
         </Menu.Item>
         <Menu.Item
+          onClick={user ? handleUserLogout : () => router.push('/signup')}
           leftSection={
-            <IconStar
-              style={{ width: rem(16), height: rem(16) }}
-              color={theme.colors.yellow[6]}
-              stroke={1.5}
-            />
+            user ? (
+              <IconLogout style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
+            ) : (
+              <IconClick style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
+            )
           }
         >
-          Saved posts
-        </Menu.Item>
-        <Menu.Item
-          leftSection={
-            <IconMessage
-              style={{ width: rem(16), height: rem(16) }}
-              color={theme.colors.blue[6]}
-              stroke={1.5}
-            />
-          }
-        >
-          Your comments
-        </Menu.Item>
-
-        <Menu.Label>Settings</Menu.Label>
-        <Menu.Item
-          leftSection={<IconSettings style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-        >
-          Account settings
-        </Menu.Item>
-        <Menu.Item
-          leftSection={
-            <IconSwitchHorizontal style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-          }
-        >
-          Change account
-        </Menu.Item>
-        <Menu.Item
-          leftSection={<IconLogout style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-        >
-          Logout
-        </Menu.Item>
-
-        <Menu.Divider />
-
-        <Menu.Label>Danger zone</Menu.Label>
-        <Menu.Item
-          leftSection={<IconPlayerPause style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-        >
-          Pause subscription
-        </Menu.Item>
-        <Menu.Item
-          color="red"
-          leftSection={<IconTrash style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-        >
-          Delete account
+          {user ? 'Logout' : 'Signup'}
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>

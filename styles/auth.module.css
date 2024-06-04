@@ -1,12 +1,12 @@
 .wrapper {
-  min-height: 100vh;
+  min-height: 93vh;
   background-size: cover;
   background-image: linear-gradient(to right, #32001c, rgba(0, 0, 0, 0)), url(/login-bg.jpg);
 }
 
 .form {
   border-right: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-7));
-  min-height: 100vh;
+  min-height: 93vh;
   max-width: rem(450px);
   padding-top: rem(80px);
 

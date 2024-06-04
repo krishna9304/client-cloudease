@@ -15,9 +15,9 @@ import ReactFlow, {
   useReactFlow,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { ImgNode, ImgNodeProps } from '@/components/InfraNode';
-import { Button, Title } from '@mantine/core';
+import { Button } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { Pallette, palletteItems } from '@/components/Pallette';
 import { DndProvider } from 'react-dnd';
@@ -68,11 +68,13 @@ const Board: React.FC<BoardProps> = () => {
   );
 
   const nodeTypes = useMemo(() => ({ imgNode: ImgNode }), []);
+
+  useEffect(() => {
+    console.log('Nodes', nodes);
+    console.log('Edges', edges);
+  }, [nodes, edges]);
   return (
     <>
-      <Title className={classes.appLogo} order={2}>
-        Cloudease
-      </Title>
       <div className={classes.designContainer}>
         <ReactFlow
           nodes={nodes}

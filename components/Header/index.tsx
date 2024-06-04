@@ -3,15 +3,22 @@ import { Group, Box, Burger, Drawer, Title, Divider } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import classes from '@/styles/HeaderMegaMenu.module.css';
 import { UserHeaderCard } from './UserHeaderCard';
+import { useRouter } from 'next/navigation';
 
 export function HeaderMegaMenu() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
-
+  const router = useRouter();
   return (
-    <Box>
+    <Box
+      style={{
+        height: '100%',
+      }}
+    >
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
-          <Title order={2}>Cloudease</Title>
+          <Title style={{ cursor: 'pointer' }} onClick={() => router.push('/')} order={1}>
+            Cloudease
+          </Title>
           <UserHeaderCard />
           <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
         </Group>
