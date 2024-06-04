@@ -33,7 +33,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         </Group>
         <Text h={200} fz="sm" mt="xs">
           {projectDescription.length > 60
-            ? projectDescription.split(' ').slice(0, 60).join(' ') + '...'
+            ? projectDescription.split(' ').slice(0, 50).join(' ') + '...'
             : projectDescription}
         </Text>
       </Card.Section>
