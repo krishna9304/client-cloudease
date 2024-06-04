@@ -24,7 +24,7 @@ export const palletteItems: {
   [key: string]: StaticImageData;
 } = {
   'React JS': reactLogo,
-  'API Gateway': apiGatewayImg,
+  'APP Gateway': apiGatewayImg,
   'Node.js': nodeJsLogo,
   MongoDB: mongoDbLogo,
   Firewall: fwLogo,

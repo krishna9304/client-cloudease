@@ -16,6 +16,6 @@ export const ApiRoutes = {
   },
   design: {
     update: (designId: string) => '/project/design/' + designId,
-    get: (designId: string) => '/project/design/' + designId,
+    get: (projectId: string) => '/project/' + projectId + '/design',
   },
 };

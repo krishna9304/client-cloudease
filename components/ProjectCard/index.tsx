@@ -1,21 +1,25 @@
 import { Card, Text, Group, Badge, Button } from '@mantine/core';
 import classes from './ProjectCard.module.css';
+import { useRouter } from 'next/navigation';
+import { IconEdit } from '@tabler/icons-react';
 
-const mockdata = {
-  title: 'Verudela Beach',
-  description:
-    'Completely renovated for the season 2020, Arena Verudela Bech Apartments are fully equipped and modernly furnished 4-star self-service apartments located on the Adriatic coastline by one of the most beautiful beaches in Pula.',
-  badges: [
-    { emoji: '☀️', label: 'Sunny weather' },
-    { emoji: '🦓', label: 'Onsite zoo' },
-  ],
-};
+export interface ProjectCardProps {
+  projectId: string;
+  projectName: string;
+  projectDescription: string;
+  tags: string[];
+}
 
-export function ProjectCard() {
-  const { title, description, badges } = mockdata;
-  const features = badges.map((badge) => (
-    <Badge variant="light" key={badge.label} leftSection={badge.emoji}>
-      {badge.label}
+export const ProjectCard: React.FC<ProjectCardProps> = ({
+  projectId,
+  projectName,
+  projectDescription,
+  tags,
+}) => {
+  const router = useRouter();
+  const features = tags.map((badge) => (
+    <Badge variant="light" key={badge}>
+      {badge}
     </Badge>
   ));
 
@@ -24,11 +28,13 @@ export function ProjectCard() {
       <Card.Section className={classes.section}>
         <Group justify="apart">
           <Text fz="lg" fw={700}>
-            {title}
+            {projectName}
           </Text>
         </Group>
-        <Text fz="sm" mt="xs">
-          {description}
+        <Text h={200} fz="sm" mt="xs">
+          {projectDescription.length > 60
+            ? projectDescription.split(' ').slice(0, 60).join(' ') + '...'
+            : projectDescription}
         </Text>
       </Card.Section>
 
@@ -39,10 +45,21 @@ export function ProjectCard() {
       </Card.Section>
 
       <Group mt="xs">
-        <Button radius="md" style={{ flex: 1 }}>
-          Edit
+        <Button
+          onClick={() => router.push(`/playground/design?project=${projectId}`)}
+          radius="md"
+          style={{ flex: 1 }}
+        >
+          Go to playground
+        </Button>
+        <Button
+          variant="gradient"
+          onClick={() => router.push(`/create-new-project?project=${projectId}`)}
+          radius="md"
+        >
+          <IconEdit size={18} /> Edit details
         </Button>
       </Group>
     </Card>
   );
-}
+};

@@ -1,6 +1,7 @@
 .card {
   background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
-  max-width: 350px;
+  width: 350px;
+  min-height: 400px;
 }
 
 .section {

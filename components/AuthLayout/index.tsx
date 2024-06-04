@@ -2,7 +2,7 @@
 import { useCurrentUser, useUserLoader } from '@/store/user.store';
 import { Loader } from '@mantine/core';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import classes from '@/styles/loader.module.css';
 import apiClient from '@/utils/axios.util';
 import { ApiRoutes } from '@/utils/routes.util';
@@ -15,6 +15,7 @@ export const AuthLayout: React.FC<{
   const router = useRouter();
   const { user, setUser } = useCurrentUser();
   const { userLoading, setUserLoading } = useUserLoader();
+  const [playgroundText, setPlaygroundText] = useState<string>('');
   const pathname = usePathname();
 
   const getAndSetSignedInUser = async () => {
@@ -34,6 +35,9 @@ export const AuthLayout: React.FC<{
   };
 
   useEffect(() => {
+    if (pathname.includes('playground')) setPlaygroundText('Playground');
+    else setPlaygroundText('');
+
     if (!user) getAndSetSignedInUser();
     return () => {};
   }, [user, pathname]);
@@ -45,10 +49,10 @@ export const AuthLayout: React.FC<{
     </div>
   ) : (
     <>
-      <HeaderMegaMenu />
+      <HeaderMegaMenu playgroundText={playgroundText} />
       <div
         style={{
-          height: '93vh',
+          height: playgroundText.length > 0 ? '91.5vh' : '93vh',
         }}
       >
         {children}

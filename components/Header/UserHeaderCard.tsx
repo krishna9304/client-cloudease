@@ -22,7 +22,7 @@ export const UserHeaderCard = () => {
 
   const handleUserLogout = async () => {
     try {
-      await apiClient.get(ApiRoutes.auth.logout);
+      await apiClient.get(ApiRoutes.auth.logout());
       toast.success('User logged out');
       setUser(null);
     } catch (error) {
