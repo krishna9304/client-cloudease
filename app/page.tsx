@@ -2,7 +2,7 @@
 import { ProjectCard, ProjectCardProps } from '@/components/ProjectCard';
 import apiClient from '@/utils/axios.util';
 import { ApiRoutes } from '@/utils/routes.util';
-import { Box, Button, Container, Divider, Group, Title } from '@mantine/core';
+import { Box, Button, Container, Group, Title } from '@mantine/core';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -35,8 +35,8 @@ export default function Dashboard() {
           Create new project
         </Button>
       </Group>
-      <Box pt={'lg'}>
-        <Group justify="center" wrap="wrap">
+      <Group justify="center" pt={'lg'}>
+        <Group maw={720} justify="space-between">
           {projects.length ? (
             projects.map((project) => <ProjectCard key={project.projectId} {...project} />)
           ) : (
@@ -45,7 +45,7 @@ export default function Dashboard() {
             </Title>
           )}
         </Group>
-      </Box>
+      </Group>
     </Container>
   );
 }

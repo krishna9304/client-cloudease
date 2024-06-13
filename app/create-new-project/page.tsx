@@ -2,15 +2,24 @@
 import { CreateNewProjectForm } from '@/components/CreateNewProject';
 import { Box, Container, Group, Title, rem } from '@mantine/core';
 import { IconArrowLeft } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function CreateNewProjectPage() {
+  const [headerName, setHeaderName] = useState<string>('Create new project');
   const router = useRouter();
+  const queryParams = useSearchParams();
+
+  useEffect(() => {
+    if (queryParams.has('project')) {
+      setHeaderName('Edit project');
+    }
+  }, [queryParams]);
   return (
     <Container p={'sm'}>
       <Group justify="space-between" h="100%">
         <Title fw={400} order={3}>
-          Create new project
+          {headerName}
         </Title>
       </Group>
       <Box
