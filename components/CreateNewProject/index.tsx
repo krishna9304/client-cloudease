@@ -22,7 +22,7 @@ import { GradientSegmentedControl } from '../GradientSegmentedControl';
 import awsLogo from '@/public/infra/aws_logo.png';
 import azureLogo from '@/public/infra/azure_logo.webp';
 
-interface NewProjectFormValues {
+export interface NewProjectFormValues {
   projectId?: string;
   projectName: string;
   projectDescription: string;
@@ -31,7 +31,7 @@ interface NewProjectFormValues {
   awsDetails?: AwsDetails;
   azureDetails?: AzureDetails;
 }
-const initialFormValues = {
+export const initialProjectFormValues = {
   projectId: undefined,
   projectName: '',
   projectDescription: '',
@@ -77,7 +77,7 @@ const initialAwsDetails = {
 };
 
 export function CreateNewProjectForm() {
-  const [formValues, setFormValues] = useState<NewProjectFormValues>(initialFormValues);
+  const [formValues, setFormValues] = useState<NewProjectFormValues>(initialProjectFormValues);
   const [azureDetails, setAzureDetails] = useState<AzureDetails>(initialAzureDetails);
   const [awsDetails, setAwsDetails] = useState<AwsDetails>(initialAwsDetails);
 
@@ -126,7 +126,7 @@ export function CreateNewProjectForm() {
 
     try {
       await apiClient.post(ApiRoutes.project.create(), reqBody);
-      setFormValues(initialFormValues);
+      setFormValues(initialProjectFormValues);
       setAwsDetails(initialAwsDetails);
       setAzureDetails(initialAzureDetails);
       toast.success('Project created.');
@@ -139,7 +139,7 @@ export function CreateNewProjectForm() {
 
   const fetchDesign = async () => {
     if (!queryParams.has('project')) {
-      setFormValues(initialFormValues);
+      setFormValues(initialProjectFormValues);
     } else {
       try {
         const res = await apiClient.get(
@@ -158,7 +158,7 @@ export function CreateNewProjectForm() {
       } catch (error) {
         console.error(error);
         toast.error('An error occurred while fetching project details.');
-        setFormValues(initialFormValues);
+        setFormValues(initialProjectFormValues);
       }
     }
   };
@@ -169,11 +169,34 @@ export function CreateNewProjectForm() {
 
   const handleUpdate = async () => {
     if (!formValues.projectName.length || !formValues.projectDescription.length) return;
+    if (formValues.cloudProvider === 'aws') {
+      if (!awsDetails.accessKey.length || !awsDetails.secretKey.length || !awsDetails.region.length)
+        return;
+    } else {
+      if (
+        !azureDetails.clientId.length ||
+        !azureDetails.clientSecret.length ||
+        !azureDetails.subscriptionId.length ||
+        !azureDetails.tenantId.length ||
+        !azureDetails.accessKey.length ||
+        !azureDetails.region.length ||
+        !azureDetails.backendResourceGroup.length ||
+        !azureDetails.backendStorageAccount.length ||
+        !azureDetails.backendContainer.length ||
+        !azureDetails.backendKey.length
+      )
+        return;
+    }
     if (formValues.projectId) {
       try {
         const pId = formValues.projectId;
         delete formValues.projectId;
-        const res = await apiClient.put(ApiRoutes.project.update(pId), formValues);
+
+        let reqBody = formValues;
+        if (formValues.cloudProvider === 'aws') reqBody = { ...reqBody, awsDetails };
+        else reqBody = { ...reqBody, azureDetails };
+
+        const res = await apiClient.put(ApiRoutes.project.update(pId), reqBody);
         const projectData = res.data.data.project;
         setFormValues({
           projectId: projectData.projectId,

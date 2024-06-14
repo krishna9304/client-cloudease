@@ -13,9 +13,11 @@ export const ApiRoutes = {
     getAll: () => '/project',
     get: (projectId: string) => '/project/' + projectId,
     update: (projectId: string) => '/project/' + projectId,
+    streamLogs: (projectId: string) => '/project/' + projectId + '/log-stream',
   },
   design: {
     update: (designId: string) => '/project/design/' + designId,
     get: (projectId: string) => '/project/' + projectId + '/design',
+    publish: (projectId: string) => '/project/' + projectId + '/publish',
   },
 };

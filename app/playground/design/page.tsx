@@ -73,7 +73,6 @@ const Board: React.FC<BoardProps> = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const reactFlowInstance = useReactFlow();
-  const theme = useMantineTheme();
 
   const onConnect = useCallback(
     (params: any) => setEdges((eds: Edge[]) => addEdge(params, eds)),
@@ -192,6 +191,19 @@ const Board: React.FC<BoardProps> = () => {
       updateDesign();
     }
   }, [nodes, edges]);
+
+  const publishDesign = async () => {
+    try {
+      const res = await apiClient.post(ApiRoutes.design.publish(design.projectId));
+      const data = res.data;
+      toast.success(data.message);
+      router.push('/playground/console?project=' + design.projectId);
+    } catch (error) {
+      console.error(error);
+      toast.error('An error occurred while publishing the design.');
+    }
+  };
+
   return (
     <>
       <div className={classes.designContainer}>
@@ -220,6 +232,7 @@ const Board: React.FC<BoardProps> = () => {
             leftSection={
               <IconDeviceFloppy style={{ width: '1rem', height: '1rem' }} color="#fff" />
             }
+            onClick={publishDesign}
             variant="gradient"
           >
             Publish your design
