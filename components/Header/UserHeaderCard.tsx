@@ -1,11 +1,24 @@
 import cx from 'clsx';
-import { Avatar, Group, Menu, Text, UnstyledButton, rem, useMantineTheme } from '@mantine/core';
+import {
+  ActionIcon,
+  Avatar,
+  Group,
+  Menu,
+  Text,
+  UnstyledButton,
+  rem,
+  useComputedColorScheme,
+  useMantineColorScheme,
+  useMantineTheme,
+} from '@mantine/core';
 import {
   IconChevronDown,
   IconClick,
   IconLogin,
   IconLogout,
+  IconMoon,
   IconSettings,
+  IconSun,
 } from '@tabler/icons-react';
 import { useState } from 'react';
 import classes from '@/styles/HeaderMegaMenu.module.css';
@@ -19,6 +32,9 @@ export const UserHeaderCard = () => {
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const { user, setUser } = useCurrentUser();
   const router = useRouter();
+
+  const { setColorScheme } = useMantineColorScheme();
+  const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
 
   const handleUserLogout = async () => {
     try {
@@ -64,6 +80,18 @@ export const UserHeaderCard = () => {
           }
         >
           {user ? 'Account settings' : 'Login'}
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
+          leftSection={
+            computedColorScheme === 'dark' ? (
+              <IconSun style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
+            ) : (
+              <IconMoon style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
+            )
+          }
+        >
+          {computedColorScheme === 'light' ? 'Dark mode' : 'Light mode'}
         </Menu.Item>
         <Menu.Item
           onClick={user ? handleUserLogout : () => router.push('/signup')}

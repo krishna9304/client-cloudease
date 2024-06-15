@@ -9,6 +9,7 @@ export const HeaderMegaMenu: React.FC<{ playgroundText: string }> = ({ playgroun
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   const router = useRouter();
   const theme = useMantineTheme();
+
   return (
     <Box
       style={{

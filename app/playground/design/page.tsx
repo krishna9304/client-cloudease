@@ -18,12 +18,12 @@ import 'reactflow/dist/style.css';
 import { use, useCallback, useEffect, useMemo, useState } from 'react';
 import { ImgNode, ImgNodeProps } from '@/components/InfraNode';
 import { Button, Modal, Radio, TextInput, Tooltip, useMantineTheme } from '@mantine/core';
-import { IconDeviceFloppy, IconStarFilled } from '@tabler/icons-react';
+import { IconDeviceFloppy, IconDownload, IconStarFilled } from '@tabler/icons-react';
 import { Pallette, palletteItems } from '@/components/Pallette';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Image from 'next/image';
-import apiClient from '@/utils/axios.util';
+import apiClient, { downloadBlob } from '@/utils/axios.util';
 import { ApiRoutes } from '@/utils/routes.util';
 import { useRouter, useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
@@ -393,6 +393,29 @@ const Board: React.FC<BoardProps> = () => {
     }));
   };
 
+  const handleZipDownload = async () => {
+    if (!project.published && !project.publishing) {
+      toast.error('Project is not published yet. Deployment files are not available.');
+      return;
+    }
+    try {
+      toast.loading('Downloading...Please wait');
+      const response = await apiClient.get(
+        ApiRoutes.project.downloadZip(project.projectId as string),
+        {
+          responseType: 'blob',
+        }
+      );
+
+      const filename = `${project.projectId}.zip`;
+      downloadBlob(response.data, filename);
+    } catch (error) {
+      console.error(error);
+      toast.error('An error occurred while downloading the files.');
+    }
+    toast.dismiss();
+  };
+
   return (
     <>
       <Modal opened={modalOpen} onClose={() => setModalOpen(false)}>
@@ -462,7 +485,7 @@ const Board: React.FC<BoardProps> = () => {
               project.publishing
                 ? 'Your design is being published. Check logs for more info.'
                 : project.published
-                  ? 'You design is already published. Click to check logs!'
+                  ? 'You design is published. Click to check logs!'
                   : 'Click to publish your design'
             }
             position="bottom"
@@ -496,6 +519,19 @@ const Board: React.FC<BoardProps> = () => {
               Magic tool
             </Button>
           </Tooltip>
+
+          {project.published || project.publishing ? (
+            <Button
+              component="button"
+              className={classes.downloadButton}
+              leftSection={<IconDownload style={{ width: '1rem', height: '1rem' }} color="#000" />}
+              variant="white"
+              color="dark"
+              onClick={handleZipDownload}
+            >
+              Download IaC files
+            </Button>
+          ) : null}
           <Pallette setNodes={setNodes} />
         </ReactFlow>
       </div>
