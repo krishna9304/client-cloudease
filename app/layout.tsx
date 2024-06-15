@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: any }) {
       </head>
       <body>
         <Toaster
-          position="bottom-center"
+          position="top-center"
           toastOptions={{
             style: {
               background: '#333',

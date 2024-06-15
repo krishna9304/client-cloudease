@@ -10,6 +10,16 @@ import toast from 'react-hot-toast';
 import '@xterm/xterm/css/xterm.css';
 import { FitAddon } from 'xterm-addon-fit';
 
+// ascii art for the text - 'tfDeployer'
+const asciiArt = `
+ ██████╗██╗     ███████╗              ████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗ █████╗ ██╗     
+██╔════╝██║     ██╔════╝              ╚══██╔══╝██╔════╝██╔══██╗████╗ ████║██║████╗  ██║██╔══██╗██║     
+██║     ██║     █████╗      █████╗       ██║   █████╗  ██████╔╝██╔████╔██║██║██╔██╗ ██║███████║██║     
+██║     ██║     ██╔══╝      ╚════╝       ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║██║╚██╗██║██╔══██║██║     
+╚██████╗███████╗███████╗                 ██║   ███████╗██║  ██║██║ ╚═╝ ██║██║██║ ╚████║██║  ██║███████╗
+ ╚═════╝╚══════╝╚══════╝                 ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝
+`;
+
 const ConsolePage: NextPage = () => {
   const term = new Terminal({
     scrollOnUserInput: true,
@@ -53,6 +63,7 @@ const ConsolePage: NextPage = () => {
     );
     eventSource.onmessage = (event) => {
       const { data } = JSON.parse(event.data);
+
       term.write(data);
     };
     eventSource.onerror = (event) => {
@@ -67,10 +78,14 @@ const ConsolePage: NextPage = () => {
       term.loadAddon(fitAddon);
 
       term.open(terminalRef.current);
-      fitAddon.fit();
+
       term.focus();
-      term.write('Connecting to server...\n');
-      streamLogs();
+      fitAddon.fit();
+      term.write(asciiArt);
+      term.write('\nConnecting to server...\n');
+
+      if (project.published || project.publishing) streamLogs();
+      else term.write('\nProject not yet published. Please publish the project to see logs.\n');
     }
     return () => {
       term.dispose();

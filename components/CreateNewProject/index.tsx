@@ -30,6 +30,8 @@ export interface NewProjectFormValues {
   cloudProvider: string;
   awsDetails?: AwsDetails;
   azureDetails?: AzureDetails;
+  published?: boolean;
+  publishing?: boolean;
 }
 export const initialProjectFormValues = {
   projectId: undefined,

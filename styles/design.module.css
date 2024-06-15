@@ -39,3 +39,14 @@
   left: 10px;
   z-index: 10;
 }
+
+.nodeFormContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.radioOptions {
+  display: flex;
+  gap: 1rem;
+}
