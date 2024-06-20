@@ -15,9 +15,9 @@ import ReactFlow, {
   useReactFlow,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import { use, useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ImgNode, ImgNodeProps } from '@/components/InfraNode';
-import { Button, Modal, Radio, TextInput, Tooltip, useMantineTheme } from '@mantine/core';
+import { Button, Modal, Radio, TextInput, Tooltip } from '@mantine/core';
 import { IconDeviceFloppy, IconDownload, IconStarFilled } from '@tabler/icons-react';
 import { Pallette, palletteItems } from '@/components/Pallette';
 import { DndProvider } from 'react-dnd';
@@ -28,8 +28,7 @@ import { ApiRoutes } from '@/utils/routes.util';
 import { useRouter, useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { NewProjectFormValues, initialProjectFormValues } from '@/components/CreateNewProject';
-import { theme } from '@/theme';
-import { NodeForms, NodeFormsType, SingleNodeFormType } from './jsf';
+import { NodeForms, SingleNodeFormType } from './jsf';
 
 interface DesignPageProps {}
 interface BoardProps {}
